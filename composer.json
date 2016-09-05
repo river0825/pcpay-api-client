@@ -1,0 +1,24 @@
+{
+  "name": "pcpay/pcpay-common",
+  "description": "This is a PChomePay API Client",
+  "authors": [
+    {
+      "name": "River Lin",
+      "email": "riverdm@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.0"
+  },
+  "require-dev": {
+    "mockery/mockery": "^0.9.4"
+  },
+  "suggest": {
+    "ext-xdebug": ">=2.2.1"
+  },
+  "autoload": {
+    "psr-4": {
+      "PCPayClient\\": "src/"
+    }
+  }
+}
