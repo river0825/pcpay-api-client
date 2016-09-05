@@ -2,7 +2,7 @@
   "name": "pcpay/api-client",
   "type": "library",
   "description": "This is a PChomePay API Client",
-  "keywords": ["payment", "pchome", "api"],
+  "keywords": ["payment", "pchome", "api", "pchomepay"],
   "homepage": "http://www.pchomepay.com.tw/",
   "license": "MIT",
   "authors": [
@@ -21,12 +21,10 @@
   "require-dev": {
     "mockery/mockery": "^0.9.4"
   },
-  "suggest": {
-    "ext-xdebug": ">=2.2.1"
-  },
   "autoload": {
     "psr-4": {
       "PCPayClient\\": "src/"
     }
-  }
+  },
+  "minimum-stability": "dev"
 }
