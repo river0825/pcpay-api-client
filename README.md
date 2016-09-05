@@ -36,12 +36,13 @@ run composer
 
 ```php
 <?php
-
 include "./vendor/autoload.php";
+
+//for session token storage
+sessoin_start();
 
 $client = new \PCPayClient\Client\PPApiClient($userId, $pass, null, false, true);
 $r = $client->getTokenObj();
-//
-var_dump($r);
 
+var_dump($r);
 ```
