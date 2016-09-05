@@ -13,9 +13,13 @@ class FileTokenStorage implements ITokenStorage
 {
     private $fileName;
 
-    public function __construct($filePath)
+    public function __construct($filePath = null)
     {
-        $this->fileName = $filePath;
+        if($filePath == null){
+            $this->fileName = dirname(__FILE__, 2)."token.json";
+        }else{
+            $this->fileName = $filePath;
+        }
     }
 
     /**

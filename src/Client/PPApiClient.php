@@ -13,8 +13,10 @@ use PCPayClient\Entity\PPToken;
 use PCPayClient\Entity\PPTokenException;
 use PCPayClient\Exceptions\ApiException;
 use PCPayClient\Exceptions\ApiServerError;
+use PCPayClient\Storage\FileTokenStorage;
 use PCPayClient\Storage\ITokenStorage;
 use PCPayClient\Storage\NullTokenStorage;
+use PCPayClient\Storage\SessionTokenStorage;
 use PCPayClient\Utils\CurlTool;
 use PCPayClient\Utils\PPDIC;
 use PCPayClient\ValueObject\Request\PaymentPostReqVO;
@@ -76,7 +78,7 @@ class PPApiClient
         $this->userAuth = "{$userId}:{$secret}";
 
         if ($tokenStorage == null) {
-            $tokenStorage = new NullTokenStorage();
+            $tokenStorage = new SessionTokenStorage();
         }
 
         $this->tokenStorage = $tokenStorage;
