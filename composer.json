@@ -1,10 +1,18 @@
 {
   "name": "pcpay/api-client",
+  "type": "library",
   "description": "This is a PChomePay API Client",
+  "keywords": ["payment", "pchome", "api"],
+  "homepage": "http://www.pchomepay.com.tw/",
+  "license": "MIT",
   "authors": [
     {
       "name": "River Lin",
-      "email": "riverdm@gmail.com"
+      "email": "river@pchomepay.com.tw"
+    },
+    {
+      "name": "Eric G. Yuan",
+      "email": "justericgg@pchomepay.com.tw"
     }
   ],
   "require": {
