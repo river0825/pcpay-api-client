@@ -1,5 +1,5 @@
 {
-  "name": "pcpay/pcpay-common",
+  "name": "pcpay/api-client",
   "description": "This is a PChomePay API Client",
   "authors": [
     {
