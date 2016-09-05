@@ -1,6 +1,6 @@
 # pcpay-api-client
 
-The client library for PChome Pay API.
+The client library for PChomePay API.
 
 ## Install  via composer
 
