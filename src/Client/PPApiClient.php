@@ -12,31 +12,28 @@ use Exception;
 use PCPayClient\Entity\PPToken;
 use PCPayClient\Entity\PPTokenException;
 use PCPayClient\Exceptions\ApiException;
+use PCPayClient\Exceptions\ApiInvalidRequestException;
 use PCPayClient\Exceptions\ApiServerError;
-use PCPayClient\Storage\FileTokenStorage;
 use PCPayClient\Storage\ITokenStorage;
-use PCPayClient\Storage\NullTokenStorage;
 use PCPayClient\Storage\SessionTokenStorage;
 use PCPayClient\Utils\CurlTool;
-use PCPayClient\Utils\PPDIC;
-use PCPayClient\ValueObject\Request\PaymentPostReqVO;
-use PCPayClient\ValueObject\Request\RefundPostReqVO;
 use PCPayClient\ValueObject\Request\AtmVAccountPostReqVO;
-use PCPayClient\ValueObject\Request\WithdrawPostReqVO;
 use PCPayClient\ValueObject\Request\CheckingGetReqVO;
 use PCPayClient\ValueObject\Request\PaymentAuditPostReqVO;
+use PCPayClient\ValueObject\Request\PaymentPostReqVO;
+use PCPayClient\ValueObject\Request\RefundPostReqVO;
+use PCPayClient\ValueObject\Request\WithdrawPostReqVO;
 use PCPayClient\ValueObjects\Response\AtmBanksGetRspVO;
+use PCPayClient\ValueObjects\Response\AtmVAccountPostRspVO;
 use PCPayClient\ValueObjects\Response\BalanceGetRspVO;
 use PCPayClient\ValueObjects\Response\CardBanksGetRspVO;
+use PCPayClient\ValueObjects\Response\CheckingGetRspVO;
+use PCPayClient\ValueObjects\Response\PaymentAuditPostRspVO;
 use PCPayClient\ValueObjects\Response\PaymentGetRspVO;
 use PCPayClient\ValueObjects\Response\PaymentPostRspVO;
 use PCPayClient\ValueObjects\Response\RefundGetRspVO;
 use PCPayClient\ValueObjects\Response\RefundPostRspVO;
-use PCPayClient\ValueObjects\Response\AtmVAccountPostRspVO;
 use PCPayClient\ValueObjects\Response\WithdrawPostRspVO;
-use PCPayClient\ValueObjects\Response\CheckingGetRspVO;
-use PCPayClient\ValueObjects\Response\PaymentAuditPostRspVO;
-use PCPayClient\Exceptions\ApiInvalidRequestException;
 
 class PPApiClient
 {
@@ -114,7 +111,7 @@ class PPApiClient
         //如果沒有資料 或 token 快過期時 , 取得新的 token
         if ($tokenFail || empty($this->token) || $this->token->willExpiredIn(PPApiClient::TOKEN_EXPIRE_SEC)) {
 
-            $curl = PPDIC::get(CurlTool::class, [$this->ignoreSSL]);
+            $curl = CurlTool::getInstance();
             $body = $curl->postToken($this->userAuth, $this->tokenURL);
             $this->handleResult($body);
             $this->token = new PPToken($body);
@@ -271,14 +268,14 @@ class PPApiClient
 
     protected function curlPost($token, $url, $data)
     {
-        $curl = PPDIC::get(CurlTool::class, [$this->ignoreSSL]);
+        $curl = CurlTool::getInstance();
         return $curl->postAPI($token, $url, $data);
     }
 
 
     protected function curlGet($token, $url, $data = [])
     {
-        $curl = PPDIC::get(CurlTool::class, [$this->ignoreSSL]);
+        $curl = CurlTool::getInstance();
         return $curl->getAPI($token, $url, $data);
     }
 
@@ -314,9 +311,6 @@ class PPApiClient
             if (empty($errStr)) {
                 $errStr = " - unknow error, error code ({$err})";
             }
-        }
-
-        if ($err) {
             throw new ApiServerError("server result error($err) {$errStr}:$result");
         }
 

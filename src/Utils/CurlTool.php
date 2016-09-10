@@ -9,13 +9,25 @@
 namespace PCPayClient\Utils;
 
 
-use GuzzleHttp\Client;
-use GuzzleHttp\Exception\ClientException;
 use RuntimeException;
 
 class CurlTool
 {
     public $ignoreSSL = false;
+
+    private static $instance = null;
+
+    /**
+     * @return CurlTool
+     */
+    public static function getInstance()
+    {
+        if (static::$instance === null) {
+            static::$instance = new CurlTool();
+        }
+
+        return static::$instance;
+    }
 
     public function __construct($ignoreSSL = false)
     {
@@ -154,41 +166,27 @@ class CurlTool
     /**
      * @param $url
      * @param $userAuth
-     * @return \GuzzleHttp\Stream\StreamInterface|null
+     * @return string
      */
     public function postToken($userAuth, $url)
     {
-        return $this->post(
-            $url,
-            null,
-            [],
-            ["CURLOPT_USERPWD" => $userAuth]
-        );
+        return $this->post($url, null, [], ["CURLOPT_USERPWD" => $userAuth]);
     }
 
     public function postAPI($token, $url, $data)
     {
-        return $this->post(
-            $url,
-            null,
-            ["pcpay-token: {$token}"],
-            ["CURLOPT_POSTFIELDS" => $data]
-        );
+        return $this->post($url, null, ["pcpay-token: {$token}"], ["CURLOPT_POSTFIELDS" => $data]);
     }
 
     /**
      * @param $data
      * @param $token
      * @param $url
-     * @return \GuzzleHttp\Stream\StreamInterface|null|string
+     * @return string
      */
     public function getAPI($token, $url, $data)
     {
-        return $this->get(
-            $url,
-            $data,
-            ["pcpay-token: $token"]
-        );
+        return $this->get($url, $data, ["pcpay-token: $token"]);
 
     }
 }
